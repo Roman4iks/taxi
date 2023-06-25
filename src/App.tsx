@@ -1,34 +1,29 @@
-import { useEffect, useState } from 'react';
-import Select from './components/Select/Select';
+import SelectInterval from './components/Select/SelectInterval/SelectInterval';
 import Table from './components/Table/Table';
-import axios from 'axios';
+import useIntervalSelect from './hooks/useIntervalSelect';
+import useFetchData from './hooks/useFetchData';
+import Pagination from './components/Pagination/Pagination';
+import { useState } from 'react';
+import { TimeInterval } from './@types/interval';
+import SelectSort from './components/Select/SelectSort/SelectSort';
+import { SortPropertyEnum } from './@types/sort';
 
-interface coinDataProps {
+export interface CoinData {
   price: number;
-  date: String;
+  date: string;
 }
 
 function App() {
-  const [timer, setTimer] = useState<number>(1);
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const { data } = await axios.get('http://localhost:3001/api/data');
-        const { quote } = data.data.BTC;
-        setData(quote.USD.price);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchApi();
-  }, []);
-
+  const [sort, setSort] = useState<SortPropertyEnum>(SortPropertyEnum.DATE_ASC)
+  const [currentPage, setCurrentPage] = useState(1)
+  const { interval, handleIntervalChange } = useIntervalSelect(TimeInterval.FIVE_MINUTES);
+  const { isLoading, apiData, pageCount } = useFetchData(interval, sort);
   return (
     <div>
-      <Select timer={timer} setTimer={setTimer} />
-      <Table />
+      <SelectInterval interval={interval} setInterval={handleIntervalChange} />
+      <SelectSort sort={sort} setSort={setSort} />
+      <Table loading={isLoading} apiData={apiData} currentPage={currentPage} />
+      <Pagination setCurrentPage={setCurrentPage} pageCount={pageCount} />
     </div>
   );
 }

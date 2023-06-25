@@ -1,10 +1,24 @@
 import React from 'react';
 import styles from './Table.module.scss';
 import DateTime from '../DateTime/DateTime';
-import data from '../../data.json';
 import Price from '../Price/Price';
+import { CoinData } from '../../App';
 
-const Table = () => {
+
+
+interface TableProps {
+  loading: Boolean,
+  apiData: CoinData[],
+  currentPage: number,
+}
+
+const Table: React.FC<TableProps> = ({loading, apiData, currentPage}) => {
+  const startIndex = (currentPage - 1) * 10;
+  const endIndex = startIndex + 10;
+  const paginatedData = apiData.slice(startIndex, endIndex);
+  if(loading){
+    return <h1 style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>LOADING...</h1>
+  }
   return (
     <table className={styles.root}>
       <thead>
@@ -14,10 +28,10 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ date, time, price }, index) => {
+        {paginatedData.map(({ date, price }, index) => {
           return (
             <tr key={index}>
-              <DateTime date={date} time={time} />
+              <DateTime date={date} />
               <Price price={Number(price)} />
             </tr>
           );

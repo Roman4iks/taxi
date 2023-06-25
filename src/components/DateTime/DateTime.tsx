@@ -2,13 +2,12 @@ import React from 'react';
 
 interface DateTimeProps {
   date: String;
-  time: String;
 }
 
-const DateTime: React.FC<DateTimeProps> = ({ date, time }) => {
+const DateTime: React.FC<DateTimeProps> = ({ date}) => {
   return (
     <td>
-      {date} {time}
+      {date}
     </td>
   );
 };
