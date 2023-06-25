@@ -1,30 +1,15 @@
 import React from 'react';
-import styles from './DateTime.module.scss';
 
-import data from '../../data.json';
+interface DateTimeProps {
+  date: String;
+  time: String;
+}
 
-const DateTime: React.FC = () => {
+const DateTime: React.FC<DateTimeProps> = ({ date, time }) => {
   return (
-    <table className={styles.root}>
-      <thead>
-        <tr>
-          <th>Дата/Время</th>
-          <th>Цена</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(({ date, time, price }, index) => {
-          return (
-            <tr key={index}>
-              <td>
-                {date} {time}
-              </td>
-              <td>{price}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <td>
+      {date} {time}
+    </td>
   );
 };
 
