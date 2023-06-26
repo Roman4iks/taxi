@@ -20,7 +20,6 @@ function useFetchData(interval: TimeInterval, sort: SortPropertyEnum) {
         setLoading(true);
         await fetchApi(setApiData, setLoading, interval);
         setPageCount(Math.round(apiData.length / 10));
-        console.log("REQUEST")
       } catch (error) {
         console.log("ERROR", error);
       }
@@ -42,7 +41,7 @@ function useFetchData(interval: TimeInterval, sort: SortPropertyEnum) {
         timer.current = null;
       }
     };
-  }, [interval]);
+  }, [interval, apiData.length]);
   return { isLoading, apiData: sortedData, pageCount };
 }
 

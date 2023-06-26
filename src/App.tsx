@@ -14,8 +14,8 @@ export interface CoinData {
 }
 
 function App() {
-  const [sort, setSort] = useState<SortPropertyEnum>(SortPropertyEnum.DATE_ASC)
   const [currentPage, setCurrentPage] = useState(1)
+  const [sort, setSort] = useState<SortPropertyEnum>(SortPropertyEnum.DATE_ASC)
   const { interval, handleIntervalChange } = useIntervalSelect(TimeInterval.FIVE_MINUTES);
   const { isLoading, apiData, pageCount } = useFetchData(interval, sort);
   return (
